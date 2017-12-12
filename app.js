@@ -110,11 +110,11 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                         }]
                     }, () => {
                       agent.publishEvent({
-                        dialogId: change.result.convId,
-                          event: {
-                          type: "ChatStateEvent",
-                          chatState: "ACTIVE"
-                          }
+                        "dialogId": change.result.convId,
+                        "event": {
+                          "type": "ChatStateEvent",
+                          "chatState": "ACTIVE"
+                        }
                       });
                       setTimeout(()=> {
                         agent.publishEvent({
@@ -126,11 +126,11 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                               }
                         });
                         agent.publishEvent({
-                          dialogId: change.result.convId,
-                            event: {
-                            type: "ChatStateEvent",
-                            chatState: "ACTIVE"
-                            }
+                          "dialogId": change.result.convId,
+                          "event": {
+                            "type": "ChatStateEvent",
+                            "chatState": "ACTIVE"
+                          }
                         });
                         setTimeout(()=> {
                           agent.publishEvent({
@@ -142,17 +142,17 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                             }
                           });
                           agent.publishEvent({
-                            dialogId: change.result.convId,
-                              event: {
-                              type: "ChatStateEvent",
-                              chatState: "ACTIVE"
-                              }
+                            "dialogId": change.result.convId,
+                            "event": {
+                              "type": "ChatStateEvent",
+                              "chatState": "ACTIVE"
+                            }
                           });
                           setTimeout(()=> {
                             sendMenu(change.result.convId);
-                          }, 1000);
-                        }, 2000);
-                      }, 2000);   
+                          }, 2000);
+                        }, 3000);
+                      }, 3000);   
                    });
                 }
             } else {
@@ -170,11 +170,11 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                 var text = change.result.lastContentEventNotification.event.message;
                 var id = change.result.convId;
                 agent.publishEvent({
-                  dialogId: change.result.convId,
-                    event: {
-                    type: "ChatStateEvent",
-                    chatState: "ACTIVE"
-                    }
+                  "dialogId": change.result.convId,
+                  "event": {
+                    "type": "ChatStateEvent",
+                    "chatState": "ACTIVE"
+                  }
                 });
                 setTimeout(()=> {
                   switch (text) {
