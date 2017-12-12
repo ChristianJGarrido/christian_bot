@@ -106,7 +106,7 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                         'conversationField': [{
                             'field': 'ParticipantsChange',
                             'type': 'ADD',
-                            'role': 'MANAGER'
+                            'role': 'ASSIGNED_AGENT'
                         }]
                     }, () => {
                       agent.publishEvent({
