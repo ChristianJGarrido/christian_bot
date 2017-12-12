@@ -182,6 +182,10 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                 !openConvs[change.result.convId].lastContentEventNotification 
               ) {
                 openConvs[change.result.convId].lastContentEventNotification = change.result.lastContentEventNotification;
+                agent.publishEvent({
+                  dialogId: change.result.convId,
+                  event: {type: "AcceptStatusEvent", status: "READ", sequenceList: [change.result.lastContentEventNotification.sequence]}
+                });
               }
               if(change.result.lastContentEventNotification && 
                 change.result.lastContentEventNotification.originatorMetadata.role == 'CONSUMER' &&
