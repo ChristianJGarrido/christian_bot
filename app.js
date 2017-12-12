@@ -193,7 +193,7 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                 openConvs[change.result.convId].lastContentEventNotification.sequence != change.result.lastContentEventNotification.sequence
               ) {
                 var text = change.result.lastContentEventNotification.event.message;
-                //openConvs[change.result.convId].lastContentEventNotification = change.result.lastContentEventNotification;
+                openConvs[change.result.convId].lastContentEventNotification = change.result.lastContentEventNotification;
                 var id = change.result.convId;
                 agent.publishEvent({
                   dialogId: change.result.convId,
