@@ -129,6 +129,13 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                           "dialogId": change.result.convId,
                           "event": {
                             "type": "ChatStateEvent",
+                            "chatState": "PAUSE"
+                          }
+                        });
+                        agent.publishEvent({
+                          "dialogId": change.result.convId,
+                          "event": {
+                            "type": "ChatStateEvent",
                             "chatState": "COMPOSING"
                           }
                         });
@@ -145,11 +152,25 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                             "dialogId": change.result.convId,
                             "event": {
                               "type": "ChatStateEvent",
+                              "chatState": "PAUSE"
+                            }
+                          });
+                          agent.publishEvent({
+                            "dialogId": change.result.convId,
+                            "event": {
+                              "type": "ChatStateEvent",
                               "chatState": "COMPOSING"
                             }
                           });
                           setTimeout(()=> {
                             sendMenu(change.result.convId);
+                            agent.publishEvent({
+                              "dialogId": change.result.convId,
+                              "event": {
+                                "type": "ChatStateEvent",
+                                "chatState": "ACTIVE"
+                              }
+                            });
                           }, 2000);
                         }, 3000);
                       }, 3000);   
@@ -199,6 +220,13 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                       console.log(text);
                       break;
                   }
+                  agent.publishEvent({
+                    "dialogId": change.result.convId,
+                    "event": {
+                      "type": "ChatStateEvent",
+                      "chatState": "ACTIVE"
+                    }
+                  });
                 }, 2000);
               }
             }
