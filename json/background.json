@@ -1,0 +1,93 @@
+{
+  "type": "vertical",
+  "elements": [
+    {
+      "type": "text",
+      "text": "Background",
+      "style": {
+        "bold": true,
+        "size": "large"
+      }
+    },
+    {
+      "type": "text",
+      "text": "Christian Garrido come to LivePerson straight from college. He graduated in 2014 from Binghamton University with a BS in Computer Science. He went to the UK to train for 3 months in Java technologies in preparation to be placed at LivePerson as a Technical Implementation Manager for 2 years. After 2 years, Christian was hired full time by LivePerson as a Solutions Engineer."
+    },
+    {
+      "type": "button",
+      "tooltip": "Introduction",
+      "title": "Introduction",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "intro"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Introduction"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "Conversational Design Team",
+      "title": "Conversational Design Team",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "cdt"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Conversational Design Team"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "Additional Info",
+      "title": "Additonal Info",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "adi"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Addtional Info"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "End Conversation",
+      "title": "End Conversation",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "endconvo"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "End Conversation"
+          }
+        ]
+      }
+    }
+  ]
+}

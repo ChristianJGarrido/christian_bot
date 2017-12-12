@@ -1,0 +1,127 @@
+{
+  "type": "vertical",
+  "elements": [
+      {
+          "type": "image",
+          "url": "https://avatars2.githubusercontent.com/u/3902768?s=460&v=4",
+          "tooltip": "Click for linkedin",
+          "click": {
+              "actions": [
+                  {
+                      "type": "link",
+                      "name": "linkedin",
+                      "uri": "https://www.linkedin.com/in/christian-john-garrido-8188096b/"
+                  }
+              ]
+          }
+      },
+      {
+          "type": "text",
+          "text": "Christian Garrido",
+          "tooltip": "Christian Garrido",
+          "style": {
+              "bold": true,
+              "size": "large"
+          }
+      },
+      {
+          "type": "text",
+          "text": "Solutions Engineer"
+      },
+      {
+          "type": "button",
+          "tooltip": "Introduction",
+          "title": "Introduction",
+          "click": {
+              "metadata": [
+                  {
+                      "type": "ExternalId",
+                      "id": "intro"
+                  }
+              ],
+              "actions": [
+                  {
+                      "type": "publishText",
+                      "text": "Introduction"
+                  }
+              ]
+          }
+      },
+      {
+        "type": "button",
+        "tooltip": "Background",
+        "title": "Background",
+        "click": {
+            "metadata": [
+                {
+                    "type": "ExternalId",
+                    "id": "background"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "publishText",
+                    "text": "Background"
+                }
+            ]
+        }
+    },
+    {
+      "type": "button",
+      "tooltip": "Conversational Design Team",
+      "title": "Conversational Design Team",
+      "click": {
+          "metadata": [
+              {
+                  "type": "ExternalId",
+                  "id": "cdt"
+              }
+          ],
+          "actions": [
+              {
+                  "type": "publishText",
+                  "text": "Conversational Design Team"
+              }
+          ]
+      }
+  }, 
+  {
+    "type": "button",
+    "tooltip": "Additional Info",
+    "title": "Additonal Info",
+    "click": {
+        "metadata": [
+            {
+                "type": "ExternalId",
+                "id": "adi"
+            }
+        ],
+        "actions": [
+            {
+                "type": "publishText",
+                "text": "Addtional Info"
+            }
+        ]
+    }
+},
+{
+  "type": "button",
+  "tooltip": "End Conversation",
+  "title": "End Conversation",
+  "click": {
+    "metadata": [
+      {
+        "type": "ExternalId",
+        "id": "endconvo"
+      }
+    ],
+    "actions": [
+      {
+        "type": "publishText",
+        "text": "End Conversation"
+      }
+    ]
+  }
+}
+  ]
+}

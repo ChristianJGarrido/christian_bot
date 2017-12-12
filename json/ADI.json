@@ -1,0 +1,149 @@
+{
+  "type": "vertical",
+  "elements": [
+    {
+      "type": "text",
+      "text": "Additonal Information",
+      "style": {
+        "bold": true,
+        "size": "large"
+      }
+    },
+    {
+      "type": "text",
+      "text": "Please see the links to Christian's personal github, company github, and linkedin as well."
+    },
+    { 
+      "type":"horizontal",
+      "elements":[
+        {
+          "type": "image",
+          "url": "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png",
+          "tooltip": "Click for linkedin",
+          "click": {
+              "actions": [
+                  {
+                      "type": "link",
+                      "name": "linkedin",
+                      "uri": "https://github.com/christianjgarrido"
+                  }
+              ]
+          }
+      },
+      {
+          "type": "image",
+          "url": "https://avatars0.githubusercontent.com/u/33121838?s=200&v=4",
+          "tooltip": "Click for liveperson github",
+          "click": {
+              "actions": [
+                  {
+                      "type": "link",
+                      "name": "linkedin",
+                      "uri": "https://lpgithub.dev.lprnd.net/cgarrido"
+                  }
+              ]
+          }
+      },
+      {
+          "type": "image",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png",
+          "tooltip": "Click for linkedin",
+          "click": {
+              "actions": [
+                  {
+                      "type": "link",
+                      "name": "linkedin",
+                      "uri": "https://www.linkedin.com/in/christian-john-garrido-8188096b/"
+                  }
+              ]
+          }
+      }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "Menu",
+      "style": {
+        "bold": true,
+        "size": "large",
+        "position":"center"
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "Introduction",
+      "title": "Introduction",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "intro"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Introduction"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "Background",
+      "title": "Background",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "background"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Background"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "Conversational Design Team",
+      "title": "Conversational Design Team",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "cdt"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Conversational Design Team"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "End Conversation",
+      "title": "End Conversation",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "endconvo"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "End Conversation"
+          }
+        ]
+      }
+    }
+  ]
+}

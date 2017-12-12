@@ -1,0 +1,93 @@
+{
+  "type": "vertical",
+  "elements": [
+    {
+      "type": "text",
+      "text": "Conversation Design Team (CDT)",
+      "style": {
+        "bold": true,
+        "size": "large"
+      }
+    },
+    {
+      "type": "text",
+      "text": "\"I would like to join the Conversational Design Team because this will be a chance to really utilize my developement skills and expertise in making a difference in the company. With being a Solutions Engineer, I have had many opportunites to build solutions which I believe I can bring to the CDT. I believe the CDT can push my skills to it's full potential and help me grow as well in expertise. I believe so many times the LivePerson Solutions Engineers only think about making things work. I will make sure not only that my code works but will also keep in mind of scalability.\""
+    },
+    {
+      "type": "button",
+      "tooltip": "Introduction",
+      "title": "Introduction",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "intro"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Introduction"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "Background",
+      "title": "Background",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "background"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Background"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "Additional Info",
+      "title": "Additonal Info",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "adi"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Addtional Info"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "End Conversation",
+      "title": "End Conversation",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "endconvo"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "End Conversation"
+          }
+        ]
+      }
+    }
+  ]
+}

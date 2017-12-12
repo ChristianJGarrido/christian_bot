@@ -1,0 +1,97 @@
+{
+  "type": "vertical",
+  "elements": [
+    {
+      "type": "text",
+      "text": "Introduction",
+      "style": {
+        "bold": true,
+        "size": "large"
+      }
+    },
+    {
+      "type": "text",
+      "text": "Christian Garrido is a Solutions Engineer at LivePerson. He currently supports and creates custom services for Clients such as Spotify, Quicken Loans, and Estee Lauder.\n\nBelow are a list of current services he has helped develop and support:"
+    },
+    {
+      "type": "text",
+      "text": "- File Transfer Widget\n- Quicken Loans 3PN\n- Discover Push Proxy\n- Kaplan Lookup\n - and more"
+    },
+    {
+      "type": "button",
+      "tooltip": "Background",
+      "title": "Background",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "background"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Background"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "Conversational Design Team",
+      "title": "Conversational Design Team",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "cdt"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Conversational Design Team"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "Additional Info",
+      "title": "Additonal Info",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "adi"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "Addtional Info"
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "tooltip": "End Conversation",
+      "title": "End Conversation",
+      "click": {
+        "metadata": [
+          {
+            "type": "ExternalId",
+            "id": "endconvo"
+          }
+        ],
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "End Conversation"
+          }
+        ]
+      }
+    }
+  ]
+}
