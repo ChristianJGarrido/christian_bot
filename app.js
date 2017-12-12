@@ -109,23 +109,50 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                             'role': 'MANAGER'
                         }]
                     }, () => {
+                      agent.publishEvent({
+                        dialogId: change.result.convId,
+                          event: {
+                          type: "ChatStateEvent",
+                          chatState: "ACTIVE"
+                          }
+                      });
+                      setTimeout(()=> {
                         agent.publishEvent({
+                              dialogId: change.result.convId,
+                              event: {
+                                  type: 'ContentEvent',
+                                  contentType: 'text/plain',
+                                  message: 'Welcome to Christian Garrido\'s information bot'
+                              }
+                        });
+                        agent.publishEvent({
+                          dialogId: change.result.convId,
+                            event: {
+                            type: "ChatStateEvent",
+                            chatState: "ACTIVE"
+                            }
+                        });
+                        setTimeout(()=> {
+                          agent.publishEvent({
                             dialogId: change.result.convId,
                             event: {
                                 type: 'ContentEvent',
                                 contentType: 'text/plain',
-                                message: 'Welcome to Christian Garrido\'s information bot'
+                                message: 'Please select from the below menu on the information you want to know about Christian'
                             }
-                        });
-                        agent.publishEvent({
-                          dialogId: change.result.convId,
-                          event: {
-                              type: 'ContentEvent',
-                              contentType: 'text/plain',
-                              message: 'Please select from the below menu on the information you want to know about Christian'
-                          }
-                        });
-                        sendMenu(change.result.convId);
+                          });
+                          agent.publishEvent({
+                            dialogId: change.result.convId,
+                              event: {
+                              type: "ChatStateEvent",
+                              chatState: "ACTIVE"
+                              }
+                          });
+                          setTimeout(()=> {
+                            sendMenu(change.result.convId);
+                          }, 1000);
+                        }, 2000);
+                      }, 2000);   
                    });
                 }
             } else {
@@ -142,28 +169,37 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
               ) {
                 var text = change.result.lastContentEventNotification.event.message;
                 var id = change.result.convId;
-                switch (text) {
-                  case 'Introduction':
-                    sendIntro(id);
-                    break;
-                  case 'Background':
-                    sendBackground(id);
-                    break;
-                  case 'Conversational Design Team':
-                    sendCDT(id);
-                    break;
-                  case 'Addtional Info':
-                    sendAddInfo(id);
-                    break;
-                  case 'End Conversation':
-                    endConversation(id);
-                    break;
-                  default:
-                    sendMenu(id);
-                    console.log('From switch');
-                    console.log(text);
-                    break;
-                }
+                agent.publishEvent({
+                  dialogId: change.result.convId,
+                    event: {
+                    type: "ChatStateEvent",
+                    chatState: "ACTIVE"
+                    }
+                });
+                setTimeout(()=> {
+                  switch (text) {
+                    case 'Introduction':
+                      sendIntro(id);
+                      break;
+                    case 'Background':
+                      sendBackground(id);
+                      break;
+                    case 'Conversational Design Team':
+                      sendCDT(id);
+                      break;
+                    case 'Addtional Info':
+                      sendAddInfo(id);
+                      break;
+                    case 'End Conversation':
+                      endConversation(id);
+                      break;
+                    default:
+                      sendMenu(id);
+                      console.log('From switch');
+                      console.log(text);
+                      break;
+                  }
+                }, 2000);
               }
             }
         }
