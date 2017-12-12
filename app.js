@@ -113,7 +113,7 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                         "dialogId": change.result.convId,
                         "event": {
                           "type": "ChatStateEvent",
-                          "chatState": "ACTIVE"
+                          "chatState": "COMPOSING"
                         }
                       });
                       setTimeout(()=> {
@@ -129,7 +129,7 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                           "dialogId": change.result.convId,
                           "event": {
                             "type": "ChatStateEvent",
-                            "chatState": "ACTIVE"
+                            "chatState": "COMPOSING"
                           }
                         });
                         setTimeout(()=> {
@@ -145,7 +145,7 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                             "dialogId": change.result.convId,
                             "event": {
                               "type": "ChatStateEvent",
-                              "chatState": "ACTIVE"
+                              "chatState": "COMPOSING"
                             }
                           });
                           setTimeout(()=> {
@@ -173,7 +173,7 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                   "dialogId": change.result.convId,
                   "event": {
                     "type": "ChatStateEvent",
-                    "chatState": "ACTIVE"
+                    "chatState": "COMPOSING"
                   }
                 });
                 setTimeout(()=> {
