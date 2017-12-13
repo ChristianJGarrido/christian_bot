@@ -209,37 +209,39 @@ agent.on('ms.MessagingEventNotification', notificationBody => {
                   "chatState": "COMPOSING"
                 }
               });
-              setTimeout(()=> {
-                switch (text) {
-                  case 'Introduction':
-                    sendIntro(id);
-                    break;
-                  case 'Background':
-                    sendBackground(id);
-                    break;
-                  case 'Conversational Design Team':
-                    sendCDT(id);
-                    break;
-                  case 'Addtional Info':
-                    sendAddInfo(id);
-                    break;
-                  case 'End Conversation':
-                    endConversation(id);
-                    break;
-                  default:
-                    sendMenu(id);
-                    console.log('From switch');
-                    console.log(text);
-                    break;
-                }
-                agent.publishEvent({
-                  "dialogId": notificationBody.dialogId,
-                  "event": {
-                    "type": "ChatStateEvent",
-                    "chatState": "ACTIVE"
+              if(change.sequence > 0) {
+                setTimeout(()=> {
+                  switch (text) {
+                    case 'Introduction':
+                      sendIntro(id);
+                      break;
+                    case 'Background':
+                      sendBackground(id);
+                      break;
+                    case 'Conversational Design Team':
+                      sendCDT(id);
+                      break;
+                    case 'Addtional Info':
+                      sendAddInfo(id);
+                      break;
+                    case 'End Conversation':
+                      endConversation(id);
+                      break;
+                    default:
+                      sendMenu(id);
+                      console.log('From switch');
+                      console.log(text);
+                      break;
                   }
-                });
-              }, 2000);
+                  agent.publishEvent({
+                    "dialogId": notificationBody.dialogId,
+                    "event": {
+                      "type": "ChatStateEvent",
+                      "chatState": "ACTIVE"
+                    }
+                  });
+                }, 2000);
+              }
           }
           // remove from respond list all the messages that were already read
           if (change.event.type === 'AcceptStatusEvent' && change.originatorId === agent.agentId) {
