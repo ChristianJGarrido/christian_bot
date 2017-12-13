@@ -94,8 +94,8 @@ agent.on('connected', () => {
 });
 
 agent.on('cqm.ExConversationChangeNotification', notificationBody => {
-    console.log(counter++);
-    console.log(JSON.stringify(notificationBody));
+    //console.log(counter++);
+    //console.log(JSON.stringify(notificationBody));
     notificationBody.changes.forEach(change => {
         if (change.type === 'UPSERT') {
             if (!openConvs[change.result.convId]) {
@@ -176,68 +176,6 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
                       }, 3000);   
                    });
                 }
-            } else {
-              if(change.result.lastContentEventNotification && 
-                change.result.lastContentEventNotification.originatorMetadata.role == 'CONSUMER' &&
-                !openConvs[change.result.convId].lastContentEventNotification 
-              ) {
-                openConvs[change.result.convId].lastContentEventNotification = change.result.lastContentEventNotification;
-                agent.publishEvent({
-                  dialogId: change.result.convId,
-                  event: {type: "AcceptStatusEvent", status: "READ", sequenceList: [change.result.lastContentEventNotification.sequence]}
-                });
-              }
-              if(change.result.lastContentEventNotification && 
-                change.result.lastContentEventNotification.originatorMetadata.role == 'CONSUMER' &&
-                openConvs[change.result.convId].lastContentEventNotification &&
-                openConvs[change.result.convId].lastContentEventNotification.sequence != change.result.lastContentEventNotification.sequence
-              ) {
-                var text = change.result.lastContentEventNotification.event.message;
-                openConvs[change.result.convId].lastContentEventNotification = change.result.lastContentEventNotification;
-                var id = change.result.convId;
-                agent.publishEvent({
-                  dialogId: change.result.convId,
-                  event: {type: "AcceptStatusEvent", status: "READ", sequenceList: [change.result.lastContentEventNotification.sequence]}
-                });
-                agent.publishEvent({
-                  "dialogId": change.result.convId,
-                  "event": {
-                    "type": "ChatStateEvent",
-                    "chatState": "COMPOSING"
-                  }
-                });
-                setTimeout(()=> {
-                  switch (text) {
-                    case 'Introduction':
-                      sendIntro(id);
-                      break;
-                    case 'Background':
-                      sendBackground(id);
-                      break;
-                    case 'Conversational Design Team':
-                      sendCDT(id);
-                      break;
-                    case 'Addtional Info':
-                      sendAddInfo(id);
-                      break;
-                    case 'End Conversation':
-                      endConversation(id);
-                      break;
-                    default:
-                      sendMenu(id);
-                      console.log('From switch');
-                      console.log(text);
-                      break;
-                  }
-                  agent.publishEvent({
-                    "dialogId": change.result.convId,
-                    "event": {
-                      "type": "ChatStateEvent",
-                      "chatState": "ACTIVE"
-                    }
-                  });
-                }, 2000);
-              }
             }
         }
         else if (change.type === 'DELETE') {
@@ -245,6 +183,80 @@ agent.on('cqm.ExConversationChangeNotification', notificationBody => {
             console.log('conversation was closed.\n');
         }
     });
+});
+
+agent.on('ms.MessagingEventNotification', notificationBody => {
+  console.log(counter++);
+  console.log(JSON.stringify(notificationBody));
+  notificationBody.changes.forEach(change => {
+      const respond = {};
+      // In the current version MessagingEventNotification are recived also without subscription
+      // Will be fixed in the next api version. So we have to check if this notification is handled by us.
+      if (openConvs[change.dialogId]) {
+          // add to respond list all content event not by me
+          if (change.event.type === 'ContentEvent' && change.originatorId !== agent.agentId) {
+              respond[`${notificationBody.dialogId}-${change.sequence}`] = {
+                  dialogId: notificationBody.dialogId,
+                  sequence: change.sequence,
+                  message: change.event.message
+              };
+              var text = change.event.message;
+              var id = notificationBody.dialogId;
+              agent.publishEvent({
+                "dialogId": notificationBody.dialogId,
+                "event": {
+                  "type": "ChatStateEvent",
+                  "chatState": "COMPOSING"
+                }
+              });
+              setTimeout(()=> {
+                switch (text) {
+                  case 'Introduction':
+                    sendIntro(id);
+                    break;
+                  case 'Background':
+                    sendBackground(id);
+                    break;
+                  case 'Conversational Design Team':
+                    sendCDT(id);
+                    break;
+                  case 'Addtional Info':
+                    sendAddInfo(id);
+                    break;
+                  case 'End Conversation':
+                    endConversation(id);
+                    break;
+                  default:
+                    sendMenu(id);
+                    console.log('From switch');
+                    console.log(text);
+                    break;
+                }
+                agent.publishEvent({
+                  "dialogId": notificationBody.dialogId,
+                  "event": {
+                    "type": "ChatStateEvent",
+                    "chatState": "ACTIVE"
+                  }
+                });
+              }, 2000);
+          }
+          // remove from respond list all the messages that were already read
+          if (change.event.type === 'AcceptStatusEvent' && change.originatorId === agent.agentId) {
+              change.event.sequenceList.forEach(seq => {
+                  delete respond[`${notificationBody.dialogId}-${seq}`];
+              });
+          }
+      }
+      Object.keys(respond).forEach(key => {
+        var contentEvent = respond[key];
+        agent.publishEvent({
+            dialogId: contentEvent.dialogId,
+            event: {type: "AcceptStatusEvent", status: "READ", sequenceList: [contentEvent.sequence]}
+        });
+        //this.emit(this.CONTENT_NOTIFICATION, contentEvent);
+      });
+  });
 });
 
 agent.on('error', err => {
