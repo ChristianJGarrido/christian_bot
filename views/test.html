@@ -14,7 +14,7 @@
     if (getParameterByName('companyBranch')) {
 		  sessionStorage.companyBranch = getParameterByName('companyBranch');
     } else {
-      sessionStorage.companyBranch = sessionStorage.companyBranch;
+      sessionStorage.companyBranch = '';
     }
 
     function getParameterByName(name, url) {
@@ -114,7 +114,7 @@
       <tbody>
       <tr>
       <td><b>Company Branch: </b></td>
-      <td><input type="text" value="" id="branch" name="branch"></td>
+      <td><input type="text" value="" id="branch" name="companyBranch"></td>
       </tr>
        <tr>
        <td>
@@ -128,7 +128,7 @@
    </form>
   <div id = "messaging"></div>
   <script>
-    $('input[name=branch]').val(sessionStorage.companyBranch);
+    $('input[name=companyBranch]').val(sessionStorage.companyBranch);
   </script>
   </body>
   
