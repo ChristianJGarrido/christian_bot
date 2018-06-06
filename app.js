@@ -1,5 +1,6 @@
 'use strict';
 require('dotenv').config();
+var jwt = require('jsonwebtoken');
 const Agent = require('node-agent-sdk').Agent;
 var counter = 0;
 
@@ -275,11 +276,50 @@ function getParticipantInfo(convDetails, participantId) {
     return convDetails.participants.filter(p => p.id === participantId)[0];
 }
 
+
 const express = require('express')
 const app = express();
+
+var bodyParser = require('body-parser');
+const uuidv1 = require('uuid/v1');
+const fs = require('fs');
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
 
 app.get('/testPage', (req, res) => res.render('test.pug'));
+
+app.post('/getJWT', (req,res) => {
+  var private_key = fs.readFileSync('idp/private_key_idp.pem');
+  var companyBranch = req.query.companyBranch ? req.query.companyBranch : '';
+ 
+
+  var options = {
+    algorithm: 'RS256',
+    issuer: 'Christian_Test',
+    expiresIn: '1h',
+    subject: uuidv1()
+  }
+  var payload = {lp_sdes: [  
+    {  
+       type: 'ctmrinfo',
+       info:{  
+        companyBranch: companyBranch  
+       }
+    }
+  ]};
+  jwt.sign(payload, private_key, options, function(err, token) {
+    if(err) {
+      res.status(400);
+      res.send(err);
+      console.log(err);
+    } else {
+      res.send({
+        jwt: token 
+      });
+    }
+  });
+});
 
 app.listen(process.env.PORT||3001, () => console.log('App started'));
