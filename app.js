@@ -88,94 +88,54 @@ var endConversation = (id) => {
 
 agent.on('connected', () => {
     console.log('connected...');
-    agent.setAgentState({ availability: 'AWAY' }); // Do not route me conversations, I'll join by myself.
+    agent.setAgentState({ availability: 'ONLINE' }); // Do not route me conversations, I'll join by myself.
     agent.subscribeExConversations({
-        'convState': ['OPEN'] // subscribes to all open conversation in the account.
+        'convState': ['OPEN'], // subscribes to all open conversation in the account.
+        'agentIds': [agent.agentId]
     });
+    agent.subscribeRoutingTasks({});
+});
+
+agent.on('routing.RoutingTaskNotification', body => {
+  console.log('Routing task');
+  console.log(JSON.stringify(body));
+  body.changes.forEach(change => {
+      if (change.type === 'UPSERT') {
+          change.result.ringsDetails.forEach(ring => {
+              if (ring.ringState === 'WAITING') {
+                  agent.updateRingState({
+                      'ringId': ring.ringId,
+                      'ringState': 'ACCEPTED'
+                  }, (e, resp) => {
+                      if (e) { console.error(`[bot.js] acceptWaitingConversations ${JSON.stringify(e)}`) }
+                      else { 
+                        console.info(`[bot.js] acceptWaitingConversations: Joined conversation ${JSON.stringify(change.result.conversationId)}, ${JSON.stringify(resp)}`)
+                      }
+                  });
+              }
+          });
+      }
+  });
 });
 
 agent.on('cqm.ExConversationChangeNotification', notificationBody => {
     //console.log(counter++);
-    //console.log(JSON.stringify(notificationBody));
+    console.log('Conversation update');
+    console.log(JSON.stringify(notificationBody));
     notificationBody.changes.forEach(change => {
         if (change.type === 'UPSERT') {
             if (!openConvs[change.result.convId]) {
                 openConvs[change.result.convId] = change.result;
                 if (!getParticipantInfo(change.result.conversationDetails, agent.agentId)) {
-                    agent.updateConversationField({
-                        'conversationId': change.result.convId,
-                        'conversationField': [{
-                            'field': 'ParticipantsChange',
-                            'type': 'ADD',
-                            'role': 'ASSIGNED_AGENT'
-                        }]
-                    }, () => {
-                      agent.publishEvent({
-                        "dialogId": change.result.convId,
-                        "event": {
-                          "type": "ChatStateEvent",
-                          "chatState": "COMPOSING"
-                        }
-                      });
-                      setTimeout(()=> {
-                        agent.publishEvent({
-                              dialogId: change.result.convId,
-                              event: {
-                                  type: 'ContentEvent',
-                                  contentType: 'text/plain',
-                                  message: 'Welcome to Christian Garrido\'s information bot'
-                              }
-                        });
-                        agent.publishEvent({
-                          "dialogId": change.result.convId,
-                          "event": {
-                            "type": "ChatStateEvent",
-                            "chatState": "PAUSE"
-                          }
-                        });
-                        agent.publishEvent({
-                          "dialogId": change.result.convId,
-                          "event": {
-                            "type": "ChatStateEvent",
-                            "chatState": "COMPOSING"
-                          }
-                        });
-                        setTimeout(()=> {
-                          agent.publishEvent({
-                            dialogId: change.result.convId,
-                            event: {
-                                type: 'ContentEvent',
-                                contentType: 'text/plain',
-                                message: 'Please select from the below menu on the information you want to know about Christian'
-                            }
-                          });
-                          agent.publishEvent({
-                            "dialogId": change.result.convId,
-                            "event": {
-                              "type": "ChatStateEvent",
-                              "chatState": "PAUSE"
-                            }
-                          });
-                          agent.publishEvent({
-                            "dialogId": change.result.convId,
-                            "event": {
-                              "type": "ChatStateEvent",
-                              "chatState": "COMPOSING"
-                            }
-                          });
-                          setTimeout(()=> {
-                            sendMenu(change.result.convId);
-                            agent.publishEvent({
-                              "dialogId": change.result.convId,
-                              "event": {
-                                "type": "ChatStateEvent",
-                                "chatState": "ACTIVE"
-                              }
-                            });
-                          }, 2000);
-                        }, 4000);
-                      }, 3000);   
-                   });
+                  console.log('query Messages');
+                  agent.request('.ams.ms.QueryMessages', {
+                    'dialogId': change.result.convId,
+                    'maxQuantity':1000,
+                    'newerThanSequence': 0,
+                    'olderThanSequence':1000
+                  }, (e) => {
+                    console.log(e);
+                  });
                 }
             }
         }
@@ -293,22 +253,28 @@ app.get('/testPage', (req, res) => res.render('test.pug'));
 app.post('/getJWT', (req,res) => {
   var private_key = fs.readFileSync('idp/private_key_idp.pem');
   var companyBranch = req.query.companyBranch ? req.query.companyBranch : '';
- 
-
+  console.log('jwt');
+  console.log(req.body);
+  var content = req.body ? req.body : undefined;
   var options = {
     algorithm: 'RS256',
     issuer: 'Christian_Test',
     expiresIn: '1h',
     subject: uuidv1()
   }
-  var payload = {lp_sdes: [  
-    {  
-       type: 'ctmrinfo',
-       info:{  
-        companyBranch: companyBranch  
-       }
-    }
-  ]};
+  if(content) {
+    content = Array.isArray(content) ? content : [content];
+  } else {
+    content = [  
+      {  
+         type: 'ctmrinfo',
+         info:{  
+          companyBranch: companyBranch  
+         }
+      }
+    ];
+  }
+  var payload = {lp_sdes: content};
   jwt.sign(payload, private_key, options, function(err, token) {
     if(err) {
       res.status(400);
